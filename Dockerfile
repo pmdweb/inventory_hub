@@ -1,21 +1,22 @@
-# Usa imagem oficial do Python
 FROM python:3.11-slim
 
-# Define diretório de trabalho dentro do container
+ENV DEBIAN_FRONTEND=noninteractive
+
 WORKDIR /app
 
-# Copia os arquivos de dependências
-COPY requirements.txt .
+# Atualiza o apt e instala git e outros pacotes necessários
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+    git \
+    build-essential \
+    libpq-dev \
+ && rm -rf /var/lib/apt/lists/*
 
-# Instala as dependências
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copia o restante da aplicação
 COPY . .
 
-# Expõe a porta padrão do Django
 EXPOSE 8000
 
-# Comando padrão (pode ser sobrescrito pelo docker-compose)
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
-
