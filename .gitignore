@@ -1,0 +1,34 @@
+# Ambiente virtual
+venv/
+
+# Dados sensíveis
+.env
+.env.*
+
+# Diretórios de cliente (se necessário ignorar mesmo)
+Customer Data/
+
+# Arquivos Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# SQLite (caso use temporariamente)
+*.sqlite3
+db.sqlite3
+
+# Django
+/staticfiles
+/media
+
+# Docker
+*.log
+*.pid
+*.sock
+
+# VSCode
+.vscode/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
