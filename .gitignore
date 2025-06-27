@@ -1,34 +1,56 @@
-# Ambiente virtual
+# Python virtual environments
 venv/
-
-# Dados sensíveis
-.env
+*.env
 .env.*
+.envrc
 
-# Diretórios de cliente (se necessário ignorar mesmo)
-Customer Data/
-
-# Arquivos Python
+# Python cache and metadata
 __pycache__/
 *.py[cod]
 *.egg-info/
+*.pyo
 
-# SQLite (caso use temporariamente)
+# SQLite database (if temporarily used)
 *.sqlite3
 db.sqlite3
 
-# Django
-/staticfiles
-/media
+# Django static/media
+/staticfiles/
+/media/
+/*.log
 
-# Docker
-*.log
+# Customer data or local upload folders
+Customer Data/
+
+# Temporary/lock/socket files
 *.pid
 *.sock
 
-# VSCode
-.vscode/
+# Docker-related
+docker-compose.override.yml
+**/docker-data/
+**/postgres_data/
 
-# Sistema operacional
+# VSCode & Dev Containers
+.vscode/
+.devcontainer/
+
+# OS-specific files
 .DS_Store
 Thumbs.db
+
+# Node.js (for React frontend, if used)
+node_modules/
+build/
+dist/
+*.lock
+
+# CI/CD tools and coverage
+coverage/
+*.coverage
+htmlcov/
+.cache/
+
+# Testing tools
+.tox/
+.pytest_cache/
