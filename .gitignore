@@ -1,56 +1,67 @@
-# Python virtual environments
-venv/
-*.env
-.env.*
-.envrc
-
-# Python cache and metadata
+# 🐍 Python
 __pycache__/
 *.py[cod]
-*.egg-info/
 *.pyo
-
-# SQLite database (if temporarily used)
+*.pyd
+*.pdb
+*.egg
+*.egg-info/
+*.log
 *.sqlite3
-db.sqlite3
+*.db
+*.env
+.env.*
 
-# Django static/media
-/staticfiles/
-/media/
-/*.log
-
-# Customer data or local upload folders
-Customer Data/
-
-# Temporary/lock/socket files
-*.pid
-*.sock
-
-# Docker-related
-docker-compose.override.yml
-**/docker-data/
-**/postgres_data/
-
-# VSCode & Dev Containers
-.vscode/
-.devcontainer/
-
-# OS-specific files
-.DS_Store
-Thumbs.db
-
-# Node.js (for React frontend, if used)
-node_modules/
-build/
-dist/
+# 📦 Pip / virtualenv
+env/
+venv/
+.venv/
+pip-wheel-metadata/
 *.lock
 
-# CI/CD tools and coverage
-coverage/
-*.coverage
+# 🔥 Testes e cobertura
 htmlcov/
+coverage.*
 .cache/
-
-# Testing tools
 .tox/
 .pytest_cache/
+
+# 🧪 VSCode / editor
+.vscode/
+.idea/
+*.swp
+
+# 🐳 Docker
+*.pid
+*.sock
+*.log
+.dockerignore
+Dockerfile*
+
+# 🧪 devcontainer
+.devcontainer/
+
+# ⚙️ Configs de lint formatadores
+.mypy_cache/
+.dmypy.json
+.pyre/
+.pytype/
+pylint-report.txt
+
+# 📁 Arquivos de mídia (uploads)
+media_assets/
+
+# 📦 Arquivos temporários e backups
+*.bak
+*.tmp
+*.orig
+*.DS_Store
+Thumbs.db
+
+# ⚙️ Outros
+*.coverage
+*.mo
+*.pot
+*.log
+*.csv
+*.tsv

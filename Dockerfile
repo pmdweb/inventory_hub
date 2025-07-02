@@ -4,7 +4,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 WORKDIR /app
 
-# Atualiza o apt e instala git e outros pacotes necessários
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
     git \
@@ -13,7 +12,10 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements-dev.txt requirements-dev.txt
+
+RUN pip install --no-cache-dir -r requirements.txt \
+    && pip install --no-cache-dir -r requirements-dev.txt
 
 COPY . .
 

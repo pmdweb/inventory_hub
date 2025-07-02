@@ -22,6 +22,10 @@ class Category(models.Model):
         verbose_name = _("Category")
         verbose_name_plural = _("Categories")
         ordering = ['name']
+        indexes = [
+            models.Index(fields=['name']),
+            models.Index(fields=['slug']),
+        ]
         
 
 

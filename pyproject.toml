@@ -1,0 +1,19 @@
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+exclude = '''
+/(
+  \.venv
+  | env
+  | build
+  | dist
+  | migrations
+  | \.git
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 88
+known_first_party = ["core", "catalog", "media_assets"]
+skip = ["migrations"]
