@@ -11,7 +11,7 @@ class Category(models.Model):
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Updated At"))
 
     def save(self, *args, **kwargs):
-        if not self.slug:
+        if not self.slug or slugify(self.name) != self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
@@ -26,7 +26,7 @@ class Category(models.Model):
             models.Index(fields=['name']),
             models.Index(fields=['slug']),
         ]
-        
+
 
 
 # Create your models here.

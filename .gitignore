@@ -48,9 +48,6 @@ Dockerfile*
 .pytype/
 pylint-report.txt
 
-# 📁 Arquivos de mídia (uploads)
-media_assets/
-
 # 📦 Arquivos temporários e backups
 *.bak
 *.tmp

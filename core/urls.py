@@ -19,6 +19,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # Include the catalog app's URLs
     path('api/', include('catalog.urls')),
+    path('api/', include('media_assets.urls')),
 ]
