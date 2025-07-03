@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'catalog',  # Custom app for product catalog
     'media_assets',  # Custom app for media assets management
+    'product',  # Custom app for product management
+    'core',  # Core app for shared functionality
     'rest_framework',  # Django REST Framework for API support
     'corsheaders',  # CORS headers for API
     'django_filters',  # For filtering in Django REST Framework
