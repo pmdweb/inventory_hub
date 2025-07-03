@@ -10,13 +10,17 @@ class Product(models.Model):
         Category,
         on_delete=models.PROTECT,
         related_name="products",
-        verbose_name=_("Category")
+        verbose_name=_("Category"),
     )
     name = models.CharField(max_length=255, unique=True, verbose_name=_("Product Name"))
-    slug = models.SlugField(max_length=255, unique=True, blank=True, verbose_name=_("Slug"))
+    slug = models.SlugField(
+        max_length=255, unique=True, blank=True, verbose_name=_("Slug")
+    )
     tags = models.CharField(max_length=255, blank=True, verbose_name=_("Tags"))
     description = models.TextField(blank=True, verbose_name=_("Description"))
-    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Price"))
+    price = models.DecimalField(
+        max_digits=10, decimal_places=2, verbose_name=_("Price")
+    )
     is_active = models.BooleanField(default=True, verbose_name=_("Is Active"))
     featured_image = models.ForeignKey(
         MediaAsset,
@@ -24,7 +28,7 @@ class Product(models.Model):
         null=True,
         blank=True,
         related_name="featured_in_products",
-        verbose_name=_("Featured Image")
+        verbose_name=_("Featured Image"),
     )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created At"))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Updated At"))

@@ -5,12 +5,10 @@ from media_assets.models import MediaAsset
 
 @pytest.mark.django_db
 def test_mediaasset_str():
-    file = SimpleUploadedFile("test.pdf", b"file_content", content_type="application/pdf")
-    asset = MediaAsset.objects.create(
-        name="Manual",
-        file=file,
-        license_type="cc-by"
+    file = SimpleUploadedFile(
+        "test.pdf", b"file_content", content_type="application/pdf"
     )
+    asset = MediaAsset.objects.create(name="Manual", file=file, license_type="cc-by")
     assert str(asset) == "Manual (cc-by)"
 
 
@@ -18,9 +16,7 @@ def test_mediaasset_str():
 def test_slug_is_generated_only_on_create():
     file = SimpleUploadedFile("file.pdf", b"123", content_type="application/pdf")
     asset = MediaAsset.objects.create(
-        name="Mapa Legal",
-        file=file,
-        license_type="cc-by"
+        name="Mapa Legal", file=file, license_type="cc-by"
     )
     slug_before = asset.slug
 
@@ -44,7 +40,7 @@ def test_optional_fields_are_saved():
         license="Creative Commons",
         license_url="https://creativecommons.org",
         alt_text="Alt text here",
-        description="Some description"
+        description="Some description",
     )
 
     assert asset.tags == "tag1,tag2"
@@ -59,9 +55,6 @@ def test_optional_fields_are_saved():
 def test_is_active_flag():
     file = SimpleUploadedFile("file.pdf", b"123", content_type="application/pdf")
     asset = MediaAsset.objects.create(
-        name="Inactive Asset",
-        file=file,
-        license_type="cc-by",
-        is_active=False
+        name="Inactive Asset", file=file, license_type="cc-by", is_active=False
     )
     assert not asset.is_active

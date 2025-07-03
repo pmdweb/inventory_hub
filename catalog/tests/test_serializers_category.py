@@ -2,6 +2,7 @@ import pytest
 from catalog.models import Category
 from catalog.serializers import CategorySerializer
 
+
 @pytest.mark.django_db
 def test_serializer_valid_data():
     data = {"name": "Terrenos"}
@@ -11,11 +12,13 @@ def test_serializer_valid_data():
     assert instance.name == "Terrenos"
     assert instance.slug == "terrenos"
 
+
 @pytest.mark.django_db
 def test_serializer_rejects_empty_name():
     serializer = CategorySerializer(data={"name": ""})
     assert not serializer.is_valid()
     assert "name" in serializer.errors
+
 
 @pytest.mark.django_db
 def test_serializer_rejects_duplicate_name():
@@ -23,6 +26,7 @@ def test_serializer_rejects_duplicate_name():
     serializer = CategorySerializer(data={"name": "Terrenos"})
     assert not serializer.is_valid()
     assert "name" in serializer.errors
+
 
 @pytest.mark.django_db
 def test_serializer_output_fields():
@@ -34,6 +38,7 @@ def test_serializer_output_fields():
     assert "created_at" in data
     assert "updated_at" in data
 
+
 @pytest.mark.django_db
 def test_serializer_handles_unicode_name():
     serializer = CategorySerializer(data={"name": "Terrenos & Propriedades"})
@@ -42,6 +47,7 @@ def test_serializer_handles_unicode_name():
     assert instance.name == "Terrenos & Propriedades"
     # slugify transforma "&" em "e"
     assert instance.slug == "terrenos-propriedades"
+
 
 @pytest.mark.django_db
 def test_serializer_handles_special_characters():
@@ -52,6 +58,7 @@ def test_serializer_handles_special_characters():
     # slugify remove ou substitui caracteres especiais
     assert instance.slug.startswith("terrenos")
 
+
 @pytest.mark.django_db
 def test_serializer_rejects_too_long_name():
     long_name = "A" * 300  # exceeds 255
@@ -60,10 +67,12 @@ def test_serializer_rejects_too_long_name():
     assert "name" in serializer.errors
     assert "ensure this field has no more than" in serializer.errors["name"][0].lower()
 
+
 @pytest.mark.django_db
 def test_read_only_fields_are_not_updated():
     """
-    Ensure that read-only fields (slug, created_at, updated_at) cannot be updated through the serializer.
+    Ensure that read-only fields (slug, created_at, updated_at)
+    cannot be updated through the serializer.
     """
     # Create initial Category instance
     category = Category.objects.create(name="Mapa")
@@ -78,7 +87,7 @@ def test_read_only_fields_are_not_updated():
         "name": "Mapa Atualizado",
         "slug": "forced-slug",
         "created_at": "2000-01-01T00:00:00Z",
-        "updated_at": "2000-01-01T00:00:00Z"
+        "updated_at": "2000-01-01T00:00:00Z",
     }
 
     serializer = CategorySerializer(category, data=data, partial=True)
