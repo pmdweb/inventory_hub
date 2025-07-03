@@ -19,7 +19,7 @@ class MediaAsset(models.Model):
         ('cc-by-nc-sa', 'CC BY-NC-SA'),
         ('cc-by-nd', 'CC BY-ND'),
         ('cc-by-nc-nd', 'CC BY-NC-ND'),
-    ], blank=True, verbose_name=_("License Type"))
+    ], blank=True, null=True, verbose_name=_("License Type"))
     alt_text = models.CharField(max_length=255, blank=True, verbose_name=_("Alternative Text"))
     description = models.TextField(blank=True, verbose_name=_("Description"))
     is_active = models.BooleanField(default=True, verbose_name=_("Is Active"))
@@ -32,7 +32,7 @@ class MediaAsset(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.license_type})" if self.license_type else self.name
 
     class Meta:
         verbose_name = _("Media Asset")
