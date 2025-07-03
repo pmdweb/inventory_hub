@@ -21,6 +21,7 @@ pip-wheel-metadata/
 
 # 🔥 Testes e cobertura
 htmlcov/
+media/
 coverage.*
 .cache/
 .tox/

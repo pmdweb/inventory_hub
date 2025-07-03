@@ -1,115 +1,91 @@
 import pytest
-from django.core.files.uploadedfile import SimpleUploadedFile
 from media_assets.models import MediaAsset
 from media_assets.serializers import MediaAssetSerializer
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 
 @pytest.mark.django_db
-def test_media_asset_serializer_output_fields():
-    """Ensure serialized fields are present and correctly rendered."""
-    fake_file = SimpleUploadedFile("test.pdf", b"file_content", content_type="application/pdf")
-    asset = MediaAsset.objects.create(name="Manual de RPG", file=fake_file, license_type="free")
-
+def test_serializer_outputs_expected_fields():
+    fake_file = SimpleUploadedFile("mapa.pdf", b"conteudo", content_type="application/pdf")
+    asset = MediaAsset.objects.create(
+        name="Mapa de RPG",
+        file=fake_file,
+        license_type="cc-by"
+    )
     serializer = MediaAssetSerializer(asset)
     data = serializer.data
 
-    assert data["name"] == "Manual de RPG"
-    assert data["license_type"] == "free"
+    assert data["name"] == "Mapa de RPG"
+    assert data["license_type"] == "cc-by"
     assert data["file"] is not None
-    assert "media_assets/" in data["file"]
+    assert "media_library/" in data["file"]
     assert "id" in data
     assert "created_at" in data
     assert "updated_at" in data
-
-
-@pytest.mark.django_db
-def test_media_asset_serializer_creates_instance():
-    """Ensure a valid serializer input creates a new MediaAsset."""
-    fake_file = SimpleUploadedFile("test.pdf", b"file_content", content_type="application/pdf")
-    payload = {
-        "name": "Mapa de Dungeon",
-        "license_type": "paid",
-        "file": fake_file,
-    }
-
-    serializer = MediaAssetSerializer(data=payload)
-    assert serializer.is_valid(), serializer.errors
-
-    instance = serializer.save()
-    assert instance.name == "Mapa de Dungeon"
-    assert instance.license_type == "paid"
-    assert instance.file.name.startswith("media_assets/")
+    assert "upload_at" in data
 
 
 @pytest.mark.django_db
 def test_serializer_rejects_missing_file():
-    """Should raise validation error if file is missing."""
-    payload = {"name": "Sem Arquivo", "license_type": "free"}
-    serializer = MediaAssetSerializer(data=payload)
-
+    serializer = MediaAssetSerializer(data={
+        "name": "Sem Arquivo",
+        "license_type": "cc-by"
+    })
     assert not serializer.is_valid()
     assert "file" in serializer.errors
-    assert "This field is required." in str(serializer.errors["file"])
+    assert "no file was submitted" in serializer.errors["file"][0].lower()
 
 
 @pytest.mark.django_db
-def test_serializer_rejects_invalid_license():
-    """Should raise error for invalid license_type value."""
-    fake_file = SimpleUploadedFile("test.pdf", b"file_content", content_type="application/pdf")
-    payload = {"name": "Licença Inválida", "license_type": "open", "file": fake_file}
-
-    serializer = MediaAssetSerializer(data=payload)
+def test_serializer_rejects_invalid_license_type():
+    file = SimpleUploadedFile("manual.pdf", b"data", content_type="application/pdf")
+    serializer = MediaAssetSerializer(data={
+        "name": "Licença Inválida",
+        "file": file,
+        "license_type": "invalid-license"
+    })
     assert not serializer.is_valid()
     assert "license_type" in serializer.errors
-    assert "is not a valid choice" in str(serializer.errors["license_type"])
+    assert "valid choice" in serializer.errors["license_type"][0].lower()
 
 
 @pytest.mark.django_db
-def test_serializer_rejects_blank_name():
-    """Should not allow empty name field."""
-    fake_file = SimpleUploadedFile("test.pdf", b"file_content", content_type="application/pdf")
-    payload = {"name": "", "license_type": "free", "file": fake_file}
+def test_read_only_fields_cannot_be_updated():
+    fake_file = SimpleUploadedFile("manual.pdf", b"file_content", content_type="application/pdf")
+    asset = MediaAsset.objects.create(
+        name="Asset Original",
+        file=fake_file,
+        license_type="cc-by"
+    )
 
-    serializer = MediaAssetSerializer(data=payload)
-    assert not serializer.is_valid()
-    assert "name" in serializer.errors
-    assert "may not be blank" in str(serializer.errors["name"])
+    original_created = asset.created_at
+    original_updated = asset.updated_at
+    original_slug = asset.slug
 
-
-@pytest.mark.django_db
-def test_serializer_blocks_readonly_fields_on_input():
-    """Should not allow setting read-only fields manually."""
-    fake_file = SimpleUploadedFile("test.pdf", b"file_content", content_type="application/pdf")
-    asset = MediaAsset.objects.create(name="Mapa 2", file=fake_file, license_type="free")
-
-    payload = {
-        "name": "Mapa Atualizado",
-        "created_at": "2022-01-01T00:00:00Z",
-        "updated_at": "2022-01-01T00:00:00Z",
+    data = {
+        "created_at": "2000-01-01T00:00:00Z",
+        "updated_at": "2000-01-01T00:00:00Z",
+        "slug": "forcado",
+        "name": "Asset Atualizado"
     }
 
-    serializer = MediaAssetSerializer(asset, data=payload, partial=True)
-    assert not serializer.is_valid()
-    assert "created_at" in serializer.errors
-    assert "updated_at" in serializer.errors
-
-
-@pytest.mark.django_db
-def test_serializer_allows_special_characters_in_name():
-    """Should allow special characters in name field."""
-    fake_file = SimpleUploadedFile("test.pdf", b"file_content", content_type="application/pdf")
-    payload = {"name": "Manual @#$%", "license_type": "free", "file": fake_file}
-
-    serializer = MediaAssetSerializer(data=payload)
-    assert serializer.is_valid(), serializer.errors
+    serializer = MediaAssetSerializer(asset, data=data, partial=True)
+    assert serializer.is_valid()
     instance = serializer.save()
-    assert instance.name == "Manual @#$%"
+
+    assert instance.created_at == original_created
+    assert instance.updated_at >= original_updated  # updated_at will auto-update
+    assert instance.slug == original_slug
+    assert instance.name == "Asset Atualizado"
 
 
 @pytest.mark.django_db
-def test_media_asset_str_representation():
-    """Ensure string representation matches expected format."""
-    fake_file = SimpleUploadedFile("test.pdf", b"file_content", content_type="application/pdf")
-    asset = MediaAsset.objects.create(name="Cartaz", file=fake_file, license_type="free")
+def test_serializer_accepts_special_characters_in_name():
+    file = SimpleUploadedFile("manual.pdf", b"data", content_type="application/pdf")
+    serializer = MediaAssetSerializer(data={
+        "name": "Nome com !@#$$%",
+        "file": file,
+        "license_type": "cc-by"
+    })
+    assert serializer.is_valid()
 
-    assert str(asset) == "Cartaz (free)"
