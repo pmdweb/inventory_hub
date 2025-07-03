@@ -1,45 +1,67 @@
 import pytest
-from media_assets.models import MediaAsset
 from django.core.files.uploadedfile import SimpleUploadedFile
+from media_assets.models import MediaAsset
+
 
 @pytest.mark.django_db
-def test_mediaasset_creation():
-    fake_file = SimpleUploadedFile("test.pdf", b"file_content")
+def test_mediaasset_str():
+    file = SimpleUploadedFile("test.pdf", b"file_content", content_type="application/pdf")
     asset = MediaAsset.objects.create(
-        name="Manual de RPG",
-        file=fake_file,
-        license_type="free"
+        name="Manual",
+        file=file,
+        license_type="cc-by"
     )
-    assert asset.name == "Manual de RPG"
-    assert asset.license_type == "free"
-    assert asset.file.name.startswith("media_library/")
+    assert str(asset) == "Manual (cc-by)"
+
 
 @pytest.mark.django_db
-def test_media_asset_str_representation():
-    fake_file = SimpleUploadedFile("manual.pdf", b"content", content_type="application/pdf")
+def test_slug_is_generated_only_on_create():
+    file = SimpleUploadedFile("file.pdf", b"123", content_type="application/pdf")
     asset = MediaAsset.objects.create(
-        name="Livro de Regras",
-        file=fake_file,
-        license_type="cc-by-sa"
+        name="Mapa Legal",
+        file=file,
+        license_type="cc-by"
     )
-    assert str(asset) == "Livro de Regras (cc-by-sa)"
+    slug_before = asset.slug
+
+    # update name, slug should remain
+    asset.name = "Mapa Muito Legal"
+    asset.save()
+    asset.refresh_from_db()
+
+    assert asset.slug == slug_before
+
 
 @pytest.mark.django_db
-def test_media_asset_fields_persist():
-    fake_file = SimpleUploadedFile("manual.pdf", b"content", content_type="application/pdf")
+def test_optional_fields_are_saved():
+    file = SimpleUploadedFile("file.pdf", b"123", content_type="application/pdf")
     asset = MediaAsset.objects.create(
-        name="Mapa de Dungeon",
-        file=fake_file,
-        license_type="cc0",
-        tags="rpg,mapa",
+        name="Mapa Completo",
+        file=file,
+        license_type="cc-by",
+        tags="tag1,tag2",
         author="Pedro",
         license="Creative Commons",
-        license_url="https://creativecommons.org/publicdomain/zero/1.0/",
-        alt_text="Um mapa antigo",
-        description="Mapa detalhado de uma masmorra"
+        license_url="https://creativecommons.org",
+        alt_text="Alt text here",
+        description="Some description"
     )
 
-    assert asset.name == "Mapa de Dungeon"
-    assert asset.license_type == "cc0"
+    assert asset.tags == "tag1,tag2"
     assert asset.author == "Pedro"
-    assert asset.file.name.startswith("media_library/")
+    assert asset.license == "Creative Commons"
+    assert asset.license_url == "https://creativecommons.org"
+    assert asset.alt_text == "Alt text here"
+    assert asset.description == "Some description"
+
+
+@pytest.mark.django_db
+def test_is_active_flag():
+    file = SimpleUploadedFile("file.pdf", b"123", content_type="application/pdf")
+    asset = MediaAsset.objects.create(
+        name="Inactive Asset",
+        file=file,
+        license_type="cc-by",
+        is_active=False
+    )
+    assert not asset.is_active

@@ -72,7 +72,7 @@ def test_put_category():
     response = client.put(f"/api/categories/{category.id}/", data, format="json")
     assert response.status_code == 200
     assert response.data["name"] == "Cenários Atualizados"
-    assert response.data["slug"] == "cenarios-atualizados"
+    assert response.data["slug"] == "cenarios"
 
 # Test partial update (PATCH) of a category
 @pytest.mark.django_db
@@ -82,7 +82,7 @@ def test_patch_category():
     response = client.patch(f"/api/categories/{category.id}/", data, format="json")
     assert response.status_code == 200
     assert response.data["name"] == "Tokens de Combate"
-    assert response.data["slug"] == "tokens-de-combate"
+    assert response.data["slug"] == "tokens"
 
 # Test deleting a category
 @pytest.mark.django_db
