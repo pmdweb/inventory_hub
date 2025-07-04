@@ -1,6 +1,7 @@
+from django.urls import include, path
 from rest_framework.routers import DefaultRouter
+
 from media_assets.views import MediaAssetViewSet
-from django.urls import path, include
 
 router = DefaultRouter()
 router.register(r"media-assets", MediaAssetViewSet)
