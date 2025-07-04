@@ -1,4 +1,5 @@
 # Development dependencies for a Django project
+-r requirements.txt
 
 # Linting & Formatting
 black==24.3.0
