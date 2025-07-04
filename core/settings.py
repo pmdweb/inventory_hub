@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+from typing import List
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,8 +26,8 @@ SECRET_KEY = "django-insecure-y2=ua0nmpnf@moocc)7if_9kyy#3&f8-qyf%d6w$-&knv+d7-5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
 
+ALLOWED_HOSTS: List[str] = []
 
 # Application definition
 
