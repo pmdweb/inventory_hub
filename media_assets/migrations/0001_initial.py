@@ -7,34 +7,118 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='MediaAsset',
+            name="MediaAsset",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255, unique=True, verbose_name='Media Asset Name')),
-                ('slug', models.SlugField(blank=True, max_length=255, unique=True, verbose_name='Slug')),
-                ('file', models.FileField(upload_to='media_assets/', verbose_name='Media File')),
-                ('tags', models.CharField(blank=True, max_length=255, verbose_name='Tags')),
-                ('author', models.CharField(blank=True, max_length=255, verbose_name='Author')),
-                ('upload_at', models.DateTimeField(auto_now_add=True, verbose_name='Upload Date')),
-                ('license', models.CharField(blank=True, max_length=255, verbose_name='License')),
-                ('license_url', models.URLField(blank=True, verbose_name='License URL')),
-                ('license_type', models.CharField(blank=True, choices=[('cc0', 'CC0'), ('cc-by', 'CC BY'), ('cc-by-sa', 'CC BY-SA'), ('cc-by-nc', 'CC BY-NC'), ('cc-by-nc-sa', 'CC BY-NC-SA'), ('cc-by-nd', 'CC BY-ND'), ('cc-by-nc-nd', 'CC BY-NC-ND')], max_length=50, verbose_name='License Type')),
-                ('alt_text', models.CharField(blank=True, max_length=255, verbose_name='Alternative Text')),
-                ('description', models.TextField(blank=True, verbose_name='Description')),
-                ('is_active', models.BooleanField(default=True, verbose_name='Is Active')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Created At')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Updated At')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        max_length=255, unique=True, verbose_name="Media Asset Name"
+                    ),
+                ),
+                (
+                    "slug",
+                    models.SlugField(
+                        blank=True, max_length=255, unique=True, verbose_name="Slug"
+                    ),
+                ),
+                (
+                    "file",
+                    models.FileField(
+                        upload_to="media_assets/", verbose_name="Media File"
+                    ),
+                ),
+                (
+                    "tags",
+                    models.CharField(blank=True, max_length=255, verbose_name="Tags"),
+                ),
+                (
+                    "author",
+                    models.CharField(blank=True, max_length=255, verbose_name="Author"),
+                ),
+                (
+                    "upload_at",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Upload Date"),
+                ),
+                (
+                    "license",
+                    models.CharField(
+                        blank=True, max_length=255, verbose_name="License"
+                    ),
+                ),
+                (
+                    "license_url",
+                    models.URLField(blank=True, verbose_name="License URL"),
+                ),
+                (
+                    "license_type",
+                    models.CharField(
+                        blank=True,
+                        choices=[
+                            ("cc0", "CC0"),
+                            ("cc-by", "CC BY"),
+                            ("cc-by-sa", "CC BY-SA"),
+                            ("cc-by-nc", "CC BY-NC"),
+                            ("cc-by-nc-sa", "CC BY-NC-SA"),
+                            ("cc-by-nd", "CC BY-ND"),
+                            ("cc-by-nc-nd", "CC BY-NC-ND"),
+                        ],
+                        max_length=50,
+                        verbose_name="License Type",
+                    ),
+                ),
+                (
+                    "alt_text",
+                    models.CharField(
+                        blank=True, max_length=255, verbose_name="Alternative Text"
+                    ),
+                ),
+                (
+                    "description",
+                    models.TextField(blank=True, verbose_name="Description"),
+                ),
+                (
+                    "is_active",
+                    models.BooleanField(default=True, verbose_name="Is Active"),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(auto_now=True, verbose_name="Updated At"),
+                ),
             ],
             options={
-                'verbose_name': 'Media Asset',
-                'verbose_name_plural': 'Media Assets',
-                'ordering': ['name'],
-                'indexes': [models.Index(fields=['name'], name='media_asset_name_895bb2_idx'), models.Index(fields=['slug'], name='media_asset_slug_352b95_idx'), models.Index(fields=['is_active'], name='media_asset_is_acti_d13628_idx'), models.Index(fields=['license_type'], name='media_asset_license_c5d9c2_idx'), models.Index(fields=['upload_at'], name='media_asset_upload__3f1fd2_idx')],
+                "verbose_name": "Media Asset",
+                "verbose_name_plural": "Media Assets",
+                "ordering": ["name"],
+                "indexes": [
+                    models.Index(fields=["name"], name="media_asset_name_895bb2_idx"),
+                    models.Index(fields=["slug"], name="media_asset_slug_352b95_idx"),
+                    models.Index(
+                        fields=["is_active"], name="media_asset_is_acti_d13628_idx"
+                    ),
+                    models.Index(
+                        fields=["license_type"], name="media_asset_license_c5d9c2_idx"
+                    ),
+                    models.Index(
+                        fields=["upload_at"], name="media_asset_upload__3f1fd2_idx"
+                    ),
+                ],
             },
         ),
     ]

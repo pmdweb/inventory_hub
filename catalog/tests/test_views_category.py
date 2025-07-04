@@ -1,8 +1,10 @@
 import pytest
 from rest_framework.test import APIClient
+
 from catalog.models import Category
 
 client = APIClient()
+
 
 # Test the GET request to list categories
 @pytest.mark.django_db
@@ -11,6 +13,7 @@ def test_list_categories():
     response = client.get("/api/categories/")
     assert response.status_code == 200
     assert response.data[0]["name"] == "Criaturas"
+
 
 # Test the POST request to create a valid category
 @pytest.mark.django_db
@@ -21,6 +24,7 @@ def test_create_category():
     assert response.data["name"] == "Terrenos"
     assert response.data["slug"] == "terrenos"
 
+
 # Test the POST request with empty name (invalid)
 @pytest.mark.django_db
 def test_create_category_invalid_name():
@@ -28,6 +32,7 @@ def test_create_category_invalid_name():
     response = client.post("/api/categories/", data, format="json")
     assert response.status_code == 400
     assert "name" in response.data
+
 
 # Test the POST request with duplicate name (should fail)
 @pytest.mark.django_db
@@ -38,6 +43,7 @@ def test_create_category_duplicate_name():
     assert response.status_code == 400
     assert "name" in response.data
 
+
 # # Test the POST request with invalid characters in name
 # @pytest.mark.django_db
 # def test_create_category_invalid_characters():
@@ -45,6 +51,7 @@ def test_create_category_duplicate_name():
 #     response = client.post("/api/categories/", data, format="json")
 #     assert response.status_code == 400
 #     assert "name" in response.data
+
 
 # Test the POST request with a valid complex name
 @pytest.mark.django_db
@@ -55,6 +62,7 @@ def test_create_category_valid_name():
     assert response.data["name"] == "Terrenos Urbanos"
     assert response.data["slug"] == "terrenos-urbanos"
 
+
 # Test retrieving a single category by ID
 @pytest.mark.django_db
 def test_get_category_by_id():
@@ -63,6 +71,7 @@ def test_get_category_by_id():
     assert response.status_code == 200
     assert response.data["name"] == "Armas"
     assert response.data["slug"] == "armas"
+
 
 # Test full update (PUT) of a category
 @pytest.mark.django_db
@@ -74,6 +83,7 @@ def test_put_category():
     assert response.data["name"] == "Cenários Atualizados"
     assert response.data["slug"] == "cenarios"
 
+
 # Test partial update (PATCH) of a category
 @pytest.mark.django_db
 def test_patch_category():
@@ -83,6 +93,7 @@ def test_patch_category():
     assert response.status_code == 200
     assert response.data["name"] == "Tokens de Combate"
     assert response.data["slug"] == "tokens"
+
 
 # Test deleting a category
 @pytest.mark.django_db
