@@ -16,7 +16,7 @@ def test_product_str():
         name="Test Product",
         price=10.0,
         category=category,
-        description="Some description"
+        description="Some description",
     )
 
     assert str(product) == "Test Product"
@@ -36,7 +36,7 @@ def test_product_creation_with_all_fields():
         category=category,
         price=99.99,
         description="Full description",
-        is_active=True
+        is_active=True,
     )
 
     assert product.id is not None
@@ -57,9 +57,7 @@ def test_product_defaults():
     category = Category.objects.create(name="Category A")
 
     product = Product.objects.create(
-        name="Minimal Product",
-        category=category,
-        price=5.00
+        name="Minimal Product", category=category, price=5.00
     )
 
     assert product.description in ("", None)

@@ -44,7 +44,9 @@ def test_create_product():
         "category": category.id,
     }
 
-    response = client.post("/api/products/", data=payload, content_type="application/json")
+    response = client.post(
+        "/api/products/", data=payload, content_type="application/json"
+    )
     assert response.status_code == 201
     assert Product.objects.filter(name="New Product").exists()
 
@@ -72,7 +74,9 @@ def test_update_product():
 @pytest.mark.django_db
 def test_delete_product():
     category = Category.objects.create(name="Category A")
-    product = Product.objects.create(name="Product To Delete", price=10.0, category=category)
+    product = Product.objects.create(
+        name="Product To Delete", price=10.0, category=category
+    )
 
     response = client.delete(f"/api/products/{product.id}/")
     assert response.status_code == 204

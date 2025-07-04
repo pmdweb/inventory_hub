@@ -1,4 +1,5 @@
 import pytest
+
 from catalog.models import Category
 from catalog.serializers import CategorySerializer
 

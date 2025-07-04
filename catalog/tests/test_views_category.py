@@ -1,5 +1,6 @@
 import pytest
 from rest_framework.test import APIClient
+
 from catalog.models import Category
 
 client = APIClient()

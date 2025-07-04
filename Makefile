@@ -1,4 +1,4 @@
-.PHONY: format lint test check
+.PHONY: format lint test check types clean
 
 format:
 	black .
@@ -7,7 +7,14 @@ format:
 lint:
 	flake8 .
 
-test:
+clean:
+	rm -f .coverage*
+	rm -rf htmlcov
+
+test: clean
 	pytest -v --cov --cov-report=term-missing
+
+types:
+	mypy .
 
 check: format lint test

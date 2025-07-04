@@ -1,7 +1,8 @@
 import pytest
+from django.core.files.uploadedfile import SimpleUploadedFile
+
 from media_assets.models import MediaAsset
 from media_assets.serializers import MediaAssetSerializer
-from django.core.files.uploadedfile import SimpleUploadedFile
 
 
 @pytest.mark.django_db
