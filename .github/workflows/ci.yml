@@ -10,6 +10,17 @@ on:
       - main
 
 jobs:
+  validate-branch:
+    name: 🚫 Enforce develop to main PRs
+    runs-on: ubuntu-latest
+    if: github.base_ref == 'main' # só roda quando PR é para main
+    steps:
+      - name: Check if head branch is develop
+        run: |
+          if [ "${GITHUB_HEAD_REF}" != "develop" ]; then
+            echo "❌ Only PRs from develop to main are allowed."
+            exit 1
+          fi
   lint:
     name: 🧹 Lint
     runs-on: ubuntu-latest
