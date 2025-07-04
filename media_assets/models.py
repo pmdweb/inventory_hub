@@ -28,7 +28,6 @@ class MediaAsset(models.Model):
             ("cc-by-nc-nd", "CC BY-NC-ND"),
         ],
         blank=True,
-        null=True,
         verbose_name=_("License Type"),
     )
     alt_text = models.CharField(
