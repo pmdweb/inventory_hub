@@ -86,10 +86,10 @@ if DATABASE_URL:
 else:
     # Fallback to local SQLite database for development
     DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": str(BASE_DIR / "db.sqlite3"),
-       }
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": str(BASE_DIR / "db.sqlite3"),
+        }
     }
 
 
