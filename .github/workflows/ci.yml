@@ -10,7 +10,7 @@ jobs:
   validate-branch:
     name: 🚫 Enforce develop to main PRs
     runs-on: ubuntu-latest
-    if: github.base_ref == 'main' # only runs if PR is to main
+    if: github.base_ref == 'main'
     steps:
       - name: Check if head branch is develop
         run: |
@@ -81,7 +81,8 @@ jobs:
           --health-retries 5
 
     env:
-      DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db?sslmode=disable
+      DB_SSL_REQUIRE: false
 
     steps:
       - name: 📥 Checkout code
@@ -106,7 +107,6 @@ jobs:
       - name: 🧪 Run tests
         run: make test
 
-      # 📤 Save coverage.xml for the next job
       - name: 📤 Upload coverage artifact
         uses: actions/upload-artifact@v4
         with:
