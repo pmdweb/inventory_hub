@@ -1,0 +1,41 @@
+[run]
+# diretórios onde buscar código Python
+source =
+    catalog
+    media_assets
+    product
+    core
+
+# incluir branch coverage se quiser
+branch = True
+
+# arquivos a ignorar durante execução
+omit =
+    */migrations/*
+    */tests/*
+    */settings.py
+    */wsgi.py
+    */asgi.py
+    manage.py
+
+[report]
+# não mostrar linhas sem cobertura em arquivos omitidos
+exclude_lines =
+    pragma: no cover
+    if __name__ == .__main__.:
+    def __str__
+    def __repr__
+    def setUp
+    def tearDown
+    def setUpClass
+    def tearDownClass
+    @abstractmethod
+    @abc.abstractmethod
+    raise NotImplementedError
+
+# tolerar arquivos 100% ignorados
+ignore_errors = True
+
+[html]
+directory = htmlcov
+title = Inventory Hub Coverage Report
