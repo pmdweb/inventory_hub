@@ -27,7 +27,7 @@ SECRET_KEY = "django-insecure-y2=ua0nmpnf@moocc)7if_9kyy#3&f8-qyf%d6w$-&knv+d7-5
 DEBUG = True
 
 
-ALLOWED_HOSTS: List[str] = ['inventory-hub-gbd9.onrender.com']
+ALLOWED_HOSTS: List[str] = ['inventory-hub-gbd9.onrender.com', 'localhost', '127.0.0.1']
 
 # Application definition
 
