@@ -10,7 +10,7 @@ jobs:
   validate-branch:
     name: 🚫 Enforce develop to main PRs
     runs-on: ubuntu-latest
-    if: github.base_ref == 'main' # only runs if PR is to main
+    if: github.base_ref == 'main'
     steps:
       - name: Check if head branch is develop
         run: |
@@ -67,7 +67,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:13
+        image: postgres:16
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -81,7 +81,8 @@ jobs:
           --health-retries 5
 
     env:
-      DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db?sslmode=disable
+      DB_SSL_REQUIRE: false
 
     steps:
       - name: 📥 Checkout code
@@ -104,9 +105,11 @@ jobs:
           rm -rf htmlcov
 
       - name: 🧪 Run tests
-        run: make test
+        run: |
+          echo "🔷 Running tests with .coveragerc"
+          make test
+          echo "✅ Tests completed"
 
-      # 📤 Save coverage.xml for the next job
       - name: 📤 Upload coverage artifact
         uses: actions/upload-artifact@v4
         with:
@@ -137,10 +140,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements-dev.txt
 
+      - name: 📄 Show coverage.xml
+        run: |
+          echo "ℹ️ Showing coverage.xml head:"
+          head -n 20 coverage.xml || true
+
       - name: 📊 Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+          token: ${{ secrets.CODECOV_TOKEN || '' }}
           file: ./coverage.xml
           flags: unittests
           name: codecov-coverage
