@@ -105,7 +105,10 @@ jobs:
           rm -rf htmlcov
 
       - name: 🧪 Run tests
-        run: make test
+        run: |
+          echo "🔷 Running tests with .coveragerc"
+          make test
+          echo "✅ Tests completed"
 
       - name: 📤 Upload coverage artifact
         uses: actions/upload-artifact@v4
@@ -137,9 +140,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements-dev.txt
 
+      - name: 📄 Show coverage.xml
+        run: |
+          echo "ℹ️ Showing coverage.xml head:"
+          head -n 20 coverage.xml || true
+
       - name: 📊 Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
+          token: ${{ secrets.CODECOV_TOKEN || '' }}
           file: ./coverage.xml
           flags: unittests
           name: codecov-coverage
