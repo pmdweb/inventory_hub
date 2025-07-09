@@ -1,0 +1,47 @@
+# Força finais de linha Unix (LF) para todos os arquivos de texto
+* text=auto eol=lf
+
+# Para arquivos Python
+*.py text eol=lf
+
+# Para shell scripts
+*.sh text eol=lf
+
+# Para arquivos de configuração
+*.yml text eol=lf
+*.yaml text eol=lf
+*.ini text eol=lf
+*.cfg text eol=lf
+*.toml text eol=lf
+
+# Para arquivos de make
+Makefile text eol=lf
+
+# Para arquivos Markdown e README
+*.md text eol=lf
+
+# Para arquivos de Docker
+Dockerfile* text eol=lf
+
+# Para arquivos de CI/CD
+.github/** text eol=lf
+.devcontainer/** text eol=lf
+
+# Para arquivos JSON
+*.json text eol=lf
+
+# Para arquivos HTML, CSS, JS
+*.html text eol=lf
+*.css text eol=lf
+*.js text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+
+# Para arquivos de teste
+*.test text eol=lf
+
+# Para arquivos de cobertura
+.coveragerc text eol=lf
+
+# Para arquivos de requirements
+requirements*.txt text eol=lf
