@@ -1,10 +1,13 @@
 services:
   web:
-    build: .
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.backend
     container_name: inventory_web
+    working_dir: /app/backend
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - .:/app
+      - ./backend:/app
     ports:
       - "8000:8000"
     depends_on:
@@ -20,6 +23,7 @@ services:
   db:
     image: postgres:15
     container_name: inventory_db
+    working_dir: /app/backend
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
