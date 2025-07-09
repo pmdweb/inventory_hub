@@ -4,6 +4,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile.backend
     container_name: inventory_web
+    working_dir: /app/backend
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./backend:/app
@@ -22,6 +23,7 @@ services:
   db:
     image: postgres:15
     container_name: inventory_db
+    working_dir: /app/backend
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
