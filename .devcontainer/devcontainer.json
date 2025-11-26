@@ -3,7 +3,6 @@
   "dockerComposeFile": "../docker-compose.yml",
   "service": "web",
   "workspaceFolder": "/app",
-
   // Ativa linting, black, isort, etc
   "customizations": {
     "vscode": {
@@ -24,7 +23,6 @@
       ]
     }
   },
-
   // Garante que as ferramentas de dev sejam instaladas sempre que abrir o container
   "postCreateCommand": "pip install -r requirements-dev.txt"
 }

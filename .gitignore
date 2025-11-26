@@ -13,7 +13,6 @@ __pycache__/
 .env.*
 !.env.example
 
-
 # 📦 Pip / virtualenv
 env/
 venv/
@@ -25,6 +24,7 @@ pip-wheel-metadata/
 htmlcov/
 media/
 coverage.*
+coverage.xml
 .cache/
 .tox/
 .pytest_cache/
@@ -44,7 +44,7 @@ Dockerfile*
 # 🧪 devcontainer
 .devcontainer/
 
-# ⚙️ Configs de lint formatadores
+# ⚙️ Configs de lint e formatadores
 .mypy_cache/
 .dmypy.json
 .pyre/
@@ -57,6 +57,9 @@ pylint-report.txt
 *.orig
 *.DS_Store
 Thumbs.db
+
+# 📄 Static files coletados
+staticfiles/
 
 # ⚙️ Outros
 *.coverage
